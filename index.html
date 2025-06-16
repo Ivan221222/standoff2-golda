@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чит на голду v0.34.0</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+        }
+        .sponsor-channel {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+        .sponsor-channel a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+        }
+        .show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+    </style>
+</head>
+<body>
+    <h1>Чит на голду Standoff 2 v0.34.0</h1>
+    <p>Скачан с лучшего сайта iziapk.com</p>
+    
+    <form id="cheatForm">
+        <label for="accountId">Введите ваш ID аккаунта</label>
+        <input type="text" id="accountId" placeholder="ID аккаунта">
+        
+        <label for="platform">Платформа</label>
+        <select id="platform">
+            <option value="">Выберите платформу</option>
+            <option value="android">Android</option>
+            <option value="ios">iOS</option>
+        </select>
+        
+        <label for="goldAmount">Количество голды</label>
+        <select id="goldAmount">
+            <option value="">Выберите количество</option>
+            <option value="100">100</option>
+            <option value="300">300</option>
+            <option value="500">500</option>
+            <option value="700">700</option>
+            <option value="1000">1000</option>
+        </select>
+        
+        <button type="button" id="hackButton">Накрутить</button>
+    </form>
+    
+    <div id="sponsorModal" class="modal">
+        <div class="modal-content">
+            <p>Чтобы накрутка произошла, необходимо подписаться на каналы спонсоров ниже.</p>
+            
+            <div class="sponsor-channel">
+                <a href="https://t.me/channel1" target="_blank">Канал спонсора 1</a>
+            </div>
+            <div class="sponsor-channel">
+                <a href="https://t.me/channel2" target="_blank">Канал спонсора 2</a>
+            </div>
+            <div class="sponsor-channel">
+                <a href="https://t.me/channel3" target="_blank">Канал спонсора 3</a>
+            </div>
+            
+            <p>Все условия перед зачислением проверяются.</p>
+            
+            <button id="continueButton">Подписался</button>
+        </div>
+    </div>
+    
+    <div id="toast" class="toast"></div>
+    
+    <script>
+        document.getElementById('hackButton').addEventListener('click', function() {
+            const accountId = document.getElementById('accountId').value;
+            const platform = document.getElementById('platform').value;
+            const goldAmount = document.getElementById('goldAmount').value;
+            
+            if (!accountId || !platform || !goldAmount) {
+                showToast('Не все данные заполнены');
+                return;
+            }
+            
+            document.getElementById('sponsorModal').style.display = 'block';
+        });
+        
+        document.getElementById('continueButton').addEventListener('click', function() {
+            document.getElementById('sponsorModal').style.display = 'none';
+            showToast('Накрутка произойдет в течение 10-15 минут, если все условия выполнены.');
+        });
+        
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show';
+            
+            setTimeout(function() {
+                toast.className = toast.className.replace('show', '');
+            }, 3000);
+        }
+        
+        // Закрыть модальное окно при клике вне его
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('sponsorModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // PWA установка
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(
+                    function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    },
+                    function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    }
+                );
+            });
+        }
+    </script>
+</body>
+</html>
